@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { FormOneComponent } from './components/form-one/form-one.component';
 import { GroupingFormComponent } from './components/grouping-form/grouping-form.component';
+import { DynamicFormComponent } from './components/dynamic-form/dynamic-form.component';
 
 const routes: Routes = [
   {
@@ -15,6 +16,10 @@ const routes: Routes = [
   {
     path: 'group-form',
     component: GroupingFormComponent,
+  },
+  {
+    path: 'dynamic-form',
+    component: DynamicFormComponent,
   },
 ];
 

@@ -6,9 +6,10 @@ import { AppComponent } from './app.component';
 import { FormOneComponent } from './components/form-one/form-one.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { GroupingFormComponent } from './components/grouping-form/grouping-form.component';
+import { DynamicFormComponent } from './components/dynamic-form/dynamic-form.component';
 
 @NgModule({
-  declarations: [AppComponent, FormOneComponent, GroupingFormComponent],
+  declarations: [AppComponent, FormOneComponent, GroupingFormComponent, DynamicFormComponent],
   imports: [BrowserModule, AppRoutingModule, ReactiveFormsModule],
   providers: [],
   bootstrap: [AppComponent],
