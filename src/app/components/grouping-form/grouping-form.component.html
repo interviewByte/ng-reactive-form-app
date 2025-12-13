@@ -19,7 +19,8 @@
     <label for="zip">Zip Code: </label>
     <input id="zip" type="text" formControlName="zip" />
   </div>
-  <p>Complete the form to enable button.</p>
+  <p>form value: {{ profileForm.value | json }}</p>
+  <p>Form Status: {{ profileForm.status }}</p>
   <button type="submit" [disabled]="!profileForm.valid">Submit</button>
 </form>
 <button type="button" (click)="updateProfile()">Update Profile</button>

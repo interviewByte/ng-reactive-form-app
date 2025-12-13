@@ -1,5 +1,11 @@
+import { state } from '@angular/animations';
 import { Component } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 
 @Component({
   selector: 'app-grouping-form',
@@ -7,19 +13,22 @@ import { FormControl, FormGroup } from '@angular/forms';
   styleUrl: './grouping-form.component.css',
 })
 export class GroupingFormComponent {
-  profileForm = new FormGroup({
-    firstName: new FormControl(''),
-    lastName: new FormControl(''),
-    address: new FormGroup({
-      street: new FormControl(''),
-      city: new FormControl(''),
-      state: new FormControl(''),
-      zip: new FormControl(''),
+  profileForm = this.formBuilder.group({
+    firstName: ['', Validators.required],
+    lastName: [''],
+    address: this.formBuilder.group({
+      street: [''],
+      city: [''],
+      state: [''],
+      zip: [''],
     }),
   });
+
+  constructor(public formBuilder: FormBuilder) {}
   onSubmit() {
     // TODO: Use EventEmitter with form value
     console.warn(this.profileForm.value);
+    console.log('this.profileForm', this.profileForm);
   }
   updateProfile() {
     this.profileForm.patchValue({
