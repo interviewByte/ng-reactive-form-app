@@ -1,0 +1,36 @@
+<div class="table-wrapper">
+  <p-table
+    [value]="users"
+    [scrollable]="true"
+    scrollHeight="300px"
+    styleClass="p-datatable-sm"
+  >
+    <ng-template pTemplate="header">
+      <tr>
+        <th style="min-width: 120px">ID</th>
+        <th style="min-width: 200px">Name</th>
+        <th style="min-width: 250px">Email</th>
+        <th style="min-width: 200px">Role</th>
+        <th style="min-width: 200px">Status</th>
+        <th style="min-width: 200px">Created</th>
+        <th style="min-width: 200px">Updated</th>
+        <th style="min-width: 200px">Department</th>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-user>
+      <tr>
+        <td>{{ user.id }}</td>
+        <td>{{ user.name }}</td>
+        <td>{{ user.email }}</td>
+        <td>{{ user.role }}</td>
+        <td>{{ user.status }}</td>
+        <td>{{ user.createdAt }}</td>
+        <td>{{ user.updatedAt }}</td>
+        <td>{{ user.department }}</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+<!-- Triger API call -->
+<button (click)="createPost()">Send Payload</button>
