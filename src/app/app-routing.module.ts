@@ -4,6 +4,7 @@ import { FormOneComponent } from './components/form-one/form-one.component';
 import { GroupingFormComponent } from './components/grouping-form/grouping-form.component';
 import { DynamicFormComponent } from './components/dynamic-form/dynamic-form.component';
 import { ScrollTableComponent } from './components/scroll-table/scroll-table.component';
+import { LoginComponent } from './components/login/login.component';
 
 const routes: Routes = [
   {
@@ -15,7 +16,7 @@ const routes: Routes = [
     component: FormOneComponent,
   },
   {
-    path: 'group-form',
+    path: 'form-group',
     component: GroupingFormComponent,
   },
   {
@@ -25,6 +26,10 @@ const routes: Routes = [
   {
     path: 'table',
     component: ScrollTableComponent,
+  },
+  {
+    path: 'login',
+    component: LoginComponent,
   },
 ];
 

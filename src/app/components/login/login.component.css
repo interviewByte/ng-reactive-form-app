@@ -1,0 +1,15 @@
+.page-center {
+    min-height: 100vh;
+    /* full viewport height */
+    display: flex;
+    justify-content: center;
+    /* horizontal center */
+    align-items: center;
+    /* vertical center */
+}
+
+.card_ {
+    height: 300px;
+    width: 400px;
+
+}

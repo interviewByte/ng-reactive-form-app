@@ -10,6 +10,14 @@ import { DynamicFormComponent } from './components/dynamic-form/dynamic-form.com
 import { TableModule } from 'primeng/table';
 import { ScrollTableComponent } from './components/scroll-table/scroll-table.component';
 import { HttpClientModule } from '@angular/common/http';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { LoginComponent } from './components/login/login.component';
+import { MatSelectModule } from '@angular/material/select';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatButtonModule } from '@angular/material/button';
+
+import { CommonModule } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -18,6 +26,7 @@ import { HttpClientModule } from '@angular/common/http';
     GroupingFormComponent,
     DynamicFormComponent,
     ScrollTableComponent,
+    LoginComponent,
   ],
   imports: [
     BrowserModule,
@@ -25,8 +34,13 @@ import { HttpClientModule } from '@angular/common/http';
     ReactiveFormsModule,
     TableModule,
     HttpClientModule,
+    MatSelectModule,
+    MatInputModule,
+    MatFormFieldModule,
+    MatButtonModule,
+    CommonModule,
   ],
-  providers: [],
+  providers: [provideAnimationsAsync()],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

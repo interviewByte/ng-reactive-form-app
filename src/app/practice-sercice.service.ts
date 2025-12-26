@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class PracticeSerciceService {
   constructor(private http: HttpClient) {}
-  private baseUrl = 'https://jsonplaceholder.typicode.com/posts';
+  private baseUrl = 'http://127.0.0.1/test/v1/login';
 
   // 1️ ****************** QUERY STRING ************
   getPostsByUserId(userId: number): Observable<any> {
@@ -16,7 +16,7 @@ export class PracticeSerciceService {
     // WHEN MORE THAN ONE PARAMS
     // params = params.set('userId', userId);
     // params = params.set('page', page);
-    return this.http.get(this.baseUrl, { params });
+    return this.http.post(this.baseUrl, { params });
   }
 
   // 2️ ****************** ROUTE PARAMapp *********************
