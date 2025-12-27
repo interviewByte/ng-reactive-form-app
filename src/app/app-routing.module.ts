@@ -16,6 +16,10 @@ const routes: Routes = [
     path: 'group-form',
     component: GroupingFormComponent,
   },
+  {
+    path: '**',
+    component: FormOneComponent,
+  },
 ];
 
 @NgModule({

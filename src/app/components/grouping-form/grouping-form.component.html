@@ -1,26 +1,164 @@
-<form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
-  <label for="first-name">First Name: </label>
-  <input id="first-name" type="text" formControlName="firstName" />
+<div class="row w-50 mx-auto p-4">
+  <div class="card p-4">
+    <div class="col-12">
+      <h4 class="text-center fw-semibold text-secondary-emphasis">
+        Reactive Basic Form
+      </h4>
+    </div>
+    <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+      <label for="first-name">First Name: </label>
+      <input
+        class="form-control"
+        id="first-name"
+        type="text"
+        formControlName="firstName"
+      />
 
-  <label for="last-name">Last Name: </label>
-  <input id="last-name" type="text" formControlName="lastName" />
-  <div formGroupName="address">
-    <h2>Address</h2>
+      <label for="last-name">Last Name: </label>
+      <input
+        class="form-control"
+        id="last-name"
+        type="text"
+        formControlName="lastName"
+      />
+      <div formGroupName="address">
+        <div class="my-2">
+          <h5>Address</h5>
+        </div>
 
-    <label for="street">Street: </label>
-    <input id="street" type="text" formControlName="street" />
+        <label for="street">Street: </label>
+        <input
+          class="form-control"
+          id="street"
+          type="text"
+          formControlName="street"
+        />
 
-    <label for="city">City: </label>
-    <input id="city" type="text" formControlName="city" />
+        <label for="city">City: </label>
+        <input
+          id="city"
+          class="form-control"
+          type="text"
+          formControlName="city"
+        />
 
-    <label for="state">State: </label>
-    <input id="state" type="text" formControlName="state" />
+        <label for="state">State: </label>
+        <input
+          id="state"
+          class="form-control"
+          type="text"
+          formControlName="state"
+        />
 
-    <label for="zip">Zip Code: </label>
-    <input id="zip" type="text" formControlName="zip" />
+        <label for="zip">Zip Code: </label>
+        <input
+          class="form-control"
+          id="zip"
+          type="number"
+          formControlName="zip"
+        />
+      </div>
+      <div class="row" formGroupName="parentDtls">
+        <div class="my-2">
+          <h5>Parent Details</h5>
+        </div>
+        <div class="col-6">
+          <label for="fatherName">Father Name: </label>
+          <input
+            class="form-control"
+            id="fatherName"
+            type="text"
+            formControlName="fatherName"
+          />
+        </div>
+        <div class="col-6">
+          <label for="fatherMobile">Father Name: </label>
+          <input
+            class="form-control"
+            id="fatherMobile"
+            type="text"
+            formControlName="fatherMobile"
+          />
+        </div>
+        <div class="col-6">
+          <label for="motherName">Mother Name: </label>
+          <input
+            class="form-control"
+            id="motherName"
+            type="text"
+            formControlName="motherName"
+          />
+        </div>
+        <div class="col-6">
+          <label for="motherMobile">Mother Mobile: </label>
+          <input
+            class="form-control"
+            id="motherMobile"
+            type="number"
+            formControlName="motherMobile"
+          />
+        </div>
+      </div>
+      <div class="my-3">
+        <button
+          type="button"
+          class="btn btn-info"
+          (click)="toggleQualification()"
+        >
+          {{ addDynamicControl | titlecase }}
+        </button>
+      </div>
+      <div
+        class="row mt-3"
+        formGroupName="qualification"
+        *ngIf="profileForm.get('qualification')"
+      >
+        <h5>Qualification</h5>
+
+        <div class="col-4">
+          <label>Degree</label>
+          <input class="form-control" formControlName="degree" />
+        </div>
+
+        <div class="col-4">
+          <label>University</label>
+          <input class="form-control" formControlName="university" />
+        </div>
+
+        <div class="col-4">
+          <label>Year</label>
+          <input class="form-control" formControlName="year" />
+        </div>
+      </div>
+      <!-- Display the form array in the template -->
+      <div formArrayName="hobbies" class="row my-3">
+        <h5>Hobbies</h5>
+        <div class="col-5">
+          <button type="button" class="btn btn-success" (click)="addAlias()">
+            + Add another alias
+          </button>
+        </div>
+        <!-- hobbies.controls → actual array of FormControl objects -->
+        <div *ngFor="let alias of hobbies.controls; let i = index">
+          <!-- The repeated alias template -->
+          <!-- i → index of each control -->
+          <label for="alias-{{ i }}">Alias:</label>
+          <input
+            class="form-control"
+            id="alias-{{ i }}"
+            type="text"
+            [formControlName]="i"
+          /><button type="button" (click)="removeAlias(i)">Remove</button>
+        </div>
+      </div>
+      <button
+        type="submit"
+        class="btn btn-warning my-4 w-100"
+        [disabled]="!profileForm.valid"
+      >
+        Submit
+      </button>
+    </form>
+    <!-- <button type="button" (click)="updateProfile()">Update Profile</button> -->
   </div>
-  <p>form value: {{ profileForm.value | json }}</p>
-  <p>Form Status: {{ profileForm.status }}</p>
-  <button type="submit" [disabled]="!profileForm.valid">Submit</button>
-</form>
-<button type="button" (click)="updateProfile()">Update Profile</button>
+</div>
