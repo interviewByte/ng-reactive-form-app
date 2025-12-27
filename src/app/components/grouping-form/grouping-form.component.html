@@ -133,24 +133,39 @@
       <!-- Display the form array in the template -->
       <div formArrayName="hobbies" class="row my-3">
         <h5>Hobbies</h5>
-        <div class="col-5">
-          <button type="button" class="btn btn-success" (click)="addAlias()">
-            + Add another alias
+
+        <button
+          type="button"
+          class="btn btn-success mb-3 col-3"
+          (click)="addHobby()"
+        >
+          + Add Hobby
+        </button>
+
+        <div
+          *ngFor="let hobby of hobbies.controls; let i = index"
+          [formGroupName]="i"
+          class="border p-3 mb-2"
+        >
+          <label>Hobby Name</label>
+          <input class="form-control" formControlName="name" />
+
+          <label>Level</label>
+          <input class="form-control" formControlName="level" />
+
+          <label>Since</label>
+          <input type="number" class="form-control" formControlName="since" />
+
+          <button
+            type="button"
+            class="btn btn-danger mt-2"
+            (click)="removeHobby(i)"
+          >
+            Remove
           </button>
         </div>
-        <!-- hobbies.controls → actual array of FormControl objects -->
-        <div *ngFor="let alias of hobbies.controls; let i = index">
-          <!-- The repeated alias template -->
-          <!-- i → index of each control -->
-          <label for="alias-{{ i }}">Alias:</label>
-          <input
-            class="form-control"
-            id="alias-{{ i }}"
-            type="text"
-            [formControlName]="i"
-          /><button type="button" (click)="removeAlias(i)">Remove</button>
-        </div>
       </div>
+
       <button
         type="submit"
         class="btn btn-warning my-4 w-100"
