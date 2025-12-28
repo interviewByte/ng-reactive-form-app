@@ -1,0 +1,17 @@
+.border-dashed {
+    border-style: dashed !important;
+    border-width: 2px !important;
+    border-color: #dee2e6 !important;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+.upload-container:hover {
+    background-color: #f1f3f5 !important;
+    border-color: #0d6efd !important;
+}
+
+.upload-container i {
+    display: block;
+    margin-bottom: 10px;
+}

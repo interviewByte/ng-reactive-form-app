@@ -17,7 +17,23 @@ import { ApiCallService } from '../../services/api-call.service';
 export class GroupingFormComponent implements OnInit {
   profileForm!: FormGroup;
   addDynamicControl: string = 'Add Your Qualificication';
+  countries = [
+    { id: 1, name: 'USA' },
+    { id: 2, name: 'India' },
+  ];
 
+  statesList = [
+    { id: 101, countryId: 1, name: 'California' },
+    { id: 102, countryId: 1, name: 'Texas' },
+    { id: 103, countryId: 2, name: 'Maharashtra' },
+    { id: 104, countryId: 2, name: 'Delhi' },
+  ];
+  // 1. Define separate variables for binary data
+  selectedSingleFile: File | null = null;
+  selectedMultiFiles: File[] = [];
+  singleFileName: string | null = null;
+  multiFileNames: string[] = [];
+  filteredStates: any[] = [];
   constructor(
     public formBuilder: FormBuilder,
     private profileService: ApiCallService
@@ -25,9 +41,11 @@ export class GroupingFormComponent implements OnInit {
     this.profileForm = this.formBuilder.group({
       firstName: ['', Validators.required],
       lastName: [''],
+      gender: ['male'],
       address: this.formBuilder.group({
         street: [''],
         city: [''],
+        country: [''],
         state: [''],
         zip: [''],
       }),
@@ -44,10 +62,35 @@ export class GroupingFormComponent implements OnInit {
           since: [''],
         }),
       ]),
+      singleFile: [null],
+      multiFiles: [null],
     });
   }
   ngOnInit(): void {
-    this.loadProfile();
+    // this.loadProfile();
+    this.profileForm
+      .get('address.country')
+      ?.valueChanges.subscribe((countryId) => {
+        this.onCountryChange(countryId);
+      });
+  }
+  onCountryChange(countryId: number) {
+    // 1. Filter the states based on selected country
+    this.filteredStates = this.statesList.filter(
+      (s) => s.countryId === +countryId
+    );
+    // Always reset the state value when country changes
+    // this.profileForm.get('address.state')?.setValue('');
+    // 2. Reset the state field so it doesn't keep the previous country's state
+    const stateControl = this.profileForm.get('address.state');
+    stateControl?.reset();
+
+    // 3. If no country is selected, disable the state dropdown
+    if (!countryId) {
+      stateControl?.disable();
+    } else {
+      stateControl?.enable();
+    }
   }
   // *************Access the FormArray control *************
   get hobbies() {
@@ -74,10 +117,25 @@ export class GroupingFormComponent implements OnInit {
   }
 
   onSubmit() {
-    // this.profileForm.getRawValue() includes everything So when you later submit:
+    // 1. Get the text data (excluding files for the first API)
+    const rawData = this.profileForm.getRawValue();
 
-    this.profileForm.getRawValue();
-    console.log('this.profileForm', this.profileForm.value);
+    // Create a payload without the file properties
+    const { singleFile, multiFiles, ...textPayload } = rawData;
+
+    console.log('Sending Text Data:', textPayload);
+
+    // 2. Call the first API
+    this.profileService.saveProfile(textPayload).subscribe({
+      next: (response: any) => {
+        console.log('Profile saved successfully!', response);
+
+        // 3. If first API is success, call the File Upload API
+        // Usually, the response gives you a record ID to associate the files with
+        this.uploadFiles(response.id);
+      },
+      error: (err) => console.error('Error saving profile', err),
+    });
   }
   updateProfile() {
     this.profileForm.patchValue({
@@ -138,7 +196,6 @@ export class GroupingFormComponent implements OnInit {
     }
   }
   toggleQualification() {
-    console.log('inse');
     this.profileForm.contains('qualification')
       ? this.removeQualification()
       : this.addQualification();
@@ -146,6 +203,8 @@ export class GroupingFormComponent implements OnInit {
   loadProfile() {
     this.profileService.getProfile().subscribe((data) => {
       console.log('API data:', data);
+      // 1. Enable form so it can accept values
+      this.profileForm.enable({ emitEvent: false });
 
       // 1. Patch normal FormGroup values
       this.profileForm.patchValue({
@@ -154,7 +213,11 @@ export class GroupingFormComponent implements OnInit {
         address: data.address,
         parentDtls: data.parentDtls,
       });
-
+      // 3. Now that filteredStates is populated, patch the state specifically
+      // We use a small timeout or just call it after the country update logic
+      if (data.address.state) {
+        this.profileForm.get('address.state')?.setValue(data.address.state);
+      }
       // 2. Clear and Refill FormArray
       this.hobbies.clear();
       data.hobbies.forEach((hobby: any) => {
@@ -175,7 +238,81 @@ export class GroupingFormComponent implements OnInit {
       // this.hobbies.disable();
     });
   }
-  test() {
-    this.hobbies.controls.forEach((c) => c.disable());
+  // 2. Logic to handle Single File
+  onSingleFileChange(event: any) {
+    console.log('Singlu upload', event.target.files[0]);
+    const file = event.target.files[0];
+    if (file) {
+      this.singleFileName = file.name;
+      this.selectedSingleFile = file; // Store binary for API
+      this.profileForm.get('singleFile')?.setValue(file);
+    }
+  }
+
+  // 3. Logic to handle Multiple Files
+  onMultiFileChange(event: any) {
+    console.log('multiSelect', event);
+    const files = Array.from(event.target.files) as File[];
+    if (files.length > 0) {
+      this.multiFileNames = files.map((f: any) => f.name);
+      this.selectedMultiFiles = files; // Store binary for API
+      this.profileForm.get('multiFiles')?.setValue(files);
+    }
+  }
+
+  // 4. Drag & Drop logic
+  onFileDropped(event: DragEvent, type: string) {
+    event.preventDefault();
+    const files = event.dataTransfer?.files;
+    if (files && files.length > 0) {
+      if (type === 'single') {
+        this.profileForm.get('singleUpload')?.setValue(files[0]);
+      } else {
+        this.profileForm.get('multiUpload')?.setValue(Array.from(files));
+      }
+    }
+  }
+
+  onDragOver(event: DragEvent) {
+    event.preventDefault();
+  }
+  // Clear selections
+  resetUploads() {
+    this.singleFileName = null;
+    this.multiFileNames = [];
+    this.profileForm.get('singleUpload')?.reset();
+    this.profileForm.get('multiUpload')?.reset();
+  }
+  uploadFiles(recordId: string) {
+    const rawData = this.profileForm.getRawValue();
+
+    // Use FormData to send binary files
+    const formData = new FormData();
+    formData.append('recordId', recordId); // Associate files with the new record
+
+    // Append Single File
+    if (rawData.singleFile) {
+      formData.append('singleFile', rawData.singleFile);
+    }
+
+    // Append Multiple Files
+    if (rawData.multiFiles && rawData.multiFiles.length > 0) {
+      rawData.multiFiles.forEach((file: File) => {
+        formData.append('multiFiles', file);
+      });
+    }
+    if (this.selectedSingleFile) {
+      formData.append('single', this.selectedSingleFile);
+    }
+
+    this.selectedMultiFiles.forEach((file) => {
+      formData.append('multi', file);
+    });
+
+    // 4. Call the File Upload API
+    this.profileService.uploadDocuments(formData).subscribe({
+      next: (res) => console.log('Files uploaded successfully!', res),
+      error: (err) => console.log('File upload failed', err),
+    });
   }
 }
