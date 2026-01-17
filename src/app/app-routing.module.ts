@@ -3,8 +3,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { FormOneComponent } from './components/form-one/form-one.component';
 import { GroupingFormComponent } from './components/grouping-form/grouping-form.component';
 import { DynamicFormComponent } from './components/dynamic-form/dynamic-form.component';
+import { BuildingDynamicFormComponent } from './components/building-dynamic-form/building-dynamic-form.component';
 import { ScrollTableComponent } from './components/scroll-table/scroll-table.component';
-import { LoginComponent } from './components/login/login.component';
 
 const routes: Routes = [
   {
@@ -27,14 +27,8 @@ const routes: Routes = [
     path: 'table',
     component: ScrollTableComponent,
   },
-  {
-    path: 'login',
-    component: LoginComponent,
-  },
 ];
-
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}
