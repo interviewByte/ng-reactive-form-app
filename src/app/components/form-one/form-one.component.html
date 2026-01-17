@@ -1,4 +1,54 @@
-<label for="name">Name: </label>
-<input id="name" type="text" [formControl]="name" />
-<p>Value: {{ name.value }}</p>
-<button type="button" (click)="updateName()">Update Name</button>
+<div>
+  <form action="" [formGroup]="myform" (ngSubmit)="handSubmit()">
+    <div>
+      <input
+        type="text"
+        name=""
+        id=""
+        formControlName="name"
+        placeholder="Enter Name"
+      />
+    </div>
+    <div>
+      <input
+        type="email"
+        name=""
+        id=""
+        formControlName="email"
+        placeholder="Enter Email"
+      />
+    </div>
+    <div>
+      <input
+        type="number"
+        name=""
+        id=""
+        formControlName="name"
+        placeholder="Enter Mobile No"
+      />
+    </div>
+    <div>
+      <select name="" id="" formControlName="course">
+        <option [value]="c.id" *ngFor="let c of courses">{{ c.lebel }}</option>
+      </select>
+    </div>
+    <div>
+      <input
+        type="text"
+        name=""
+        id=""
+        formControlName="experience"
+        placeholder="Enter Experience"
+      />
+    </div>
+    <div *ngIf="myform.contains('salary')">
+      <input type="text" name="" id="" formControlName="salary" />
+    </div>
+    <div><button type="submit">Submit</button></div>
+    <div>
+      <button type="button" (click)="handleClick()">
+        Remove salary Control
+      </button>
+    </div>
+  </form>
+</div>
