@@ -1,26 +1,374 @@
-<form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
-  <label for="first-name">First Name: </label>
-  <input id="first-name" type="text" formControlName="firstName" />
+<div class="row w-50 mx-auto p-4">
+  <div class="card p-4 shadow-sm">
+    <div class="col-12">
+      <h4 class="text-center fw-semibold text-secondary-emphasis">
+        Reactive Basic Form
+      </h4>
+    </div>
 
-  <label for="last-name">Last Name: </label>
-  <input id="last-name" type="text" formControlName="lastName" />
-  <div formGroupName="address">
-    <h2>Address</h2>
+    <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+      <div class="row">
+        <div class="col-6 mb-2">
+          <label for="first-name">First Name: </label>
+          <input
+            class="form-control"
+            id="first-name"
+            type="text"
+            formControlName="firstName"
+          />
+        </div>
 
-    <label for="street">Street: </label>
-    <input id="street" type="text" formControlName="street" />
+        <div class="col-6 mb-2">
+          <label for="last-name">Last Name: </label>
+          <input
+            class="form-control"
+            id="last-name"
+            type="text"
+            formControlName="lastName"
+          />
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 my-3">
+          <label class="fw-bold d-block mb-2">Gender</label>
 
-    <label for="city">City: </label>
-    <input id="city" type="text" formControlName="city" />
+          <div class="d-flex gap-4">
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="radio"
+                id="genderMale"
+                value="male"
+                formControlName="gender"
+              />
+              <label class="form-check-label" for="genderMale"> Male </label>
+            </div>
 
-    <label for="state">State: </label>
-    <input id="state" type="text" formControlName="state" />
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="radio"
+                id="genderFemale"
+                value="female"
+                formControlName="gender"
+              />
+              <label class="form-check-label" for="genderFemale">
+                Female
+              </label>
+            </div>
 
-    <label for="zip">Zip Code: </label>
-    <input id="zip" type="text" formControlName="zip" />
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="radio"
+                id="genderOther"
+                value="other"
+                formControlName="gender"
+              />
+              <label class="form-check-label" for="genderOther"> Other </label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div formGroupName="address" class="mt-3">
+        <div class="my-2 border-bottom">
+          <h5>Address</h5>
+        </div>
+
+        <label for="street">Street: </label>
+        <input
+          class="form-control mb-2"
+          id="street"
+          type="text"
+          formControlName="street"
+        />
+
+        <div class="row">
+          <div class="col-6 mb-2">
+            <label for="city">City: </label>
+            <input
+              id="city"
+              class="form-control"
+              type="text"
+              formControlName="city"
+            />
+          </div>
+          <div class="col-6 mb-2">
+            <label for="zip">Zip Code: </label>
+            <input
+              class="form-control"
+              id="zip"
+              type="number"
+              formControlName="zip"
+            />
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-6 mb-2">
+            <label for="country">Country: </label>
+            <select id="country" class="form-select" formControlName="country">
+              <option value="">-- Select Country --</option>
+              <option *ngFor="let c of countries" [value]="c.id">
+                {{ c.name }}
+              </option>
+            </select>
+          </div>
+
+          <div
+            class="col-6 mb-2"
+            *ngIf="profileForm.get('address.country')?.value"
+          >
+            <label for="state">State: </label>
+            <select id="state" class="form-select" formControlName="state">
+              <option value="">-- Select State --</option>
+              <option *ngFor="let s of filteredStates" [value]="s.name">
+                {{ s.name }}
+              </option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="row mt-3" formGroupName="parentDtls">
+        <div class="my-2 border-bottom">
+          <h5>Parent Details</h5>
+        </div>
+        <div class="col-6 mb-2">
+          <label for="fatherName">Father Name: </label>
+          <input
+            class="form-control"
+            id="fatherName"
+            type="text"
+            formControlName="fatherName"
+          />
+        </div>
+        <div class="col-6 mb-2">
+          <label for="fatherMobile">Father Mobile: </label>
+          <input
+            class="form-control"
+            id="fatherMobile"
+            type="text"
+            formControlName="fatherMobile"
+          />
+        </div>
+        <div class="col-6 mb-2">
+          <label for="motherName">Mother Name: </label>
+          <input
+            class="form-control"
+            id="motherName"
+            type="text"
+            formControlName="motherName"
+          />
+        </div>
+        <div class="col-6 mb-2">
+          <label for="motherMobile">Mother Mobile: </label>
+          <input
+            class="form-control"
+            id="motherMobile"
+            type="number"
+            formControlName="motherMobile"
+          />
+        </div>
+      </div>
+
+      <div class="my-3">
+        <button
+          type="button"
+          class="btn btn-outline-info btn-sm"
+          (click)="toggleQualification()"
+        >
+          {{ addDynamicControl | titlecase }}
+        </button>
+      </div>
+
+      <div
+        class="row mt-3 p-3 bg-light border rounded"
+        formGroupName="qualification"
+        *ngIf="profileForm.get('qualification')"
+      >
+        <h6 class="fw-bold">Qualification Details</h6>
+        <div class="col-4">
+          <label class="small">Degree</label>
+          <input
+            class="form-control form-control-sm"
+            formControlName="degree"
+          />
+        </div>
+        <div class="col-4">
+          <label class="small">University</label>
+          <input
+            class="form-control form-control-sm"
+            formControlName="university"
+          />
+        </div>
+        <div class="col-4">
+          <label class="small">Year</label>
+          <input class="form-control form-control-sm" formControlName="year" />
+        </div>
+      </div>
+
+      <div formArrayName="hobbies" class="mt-4">
+        <div
+          class="d-flex justify-content-between align-items-center mb-2 border-bottom"
+        >
+          <h5>Hobbies</h5>
+          <button
+            type="button"
+            class="btn btn-success btn-sm"
+            (click)="addHobby()"
+          >
+            + Add Hobby
+          </button>
+        </div>
+
+        <div
+          *ngFor="let hobby of hobbies.controls; let i = index"
+          [formGroupName]="i"
+          class="card p-3 mb-2 bg-light border-0"
+        >
+          <div class="row">
+            <div class="col-5">
+              <label class="small">Hobby Name</label>
+              <input
+                class="form-control form-control-sm"
+                formControlName="name"
+              />
+            </div>
+            <div class="col-4">
+              <label class="small">Level</label>
+              <input
+                class="form-control form-control-sm"
+                formControlName="level"
+              />
+            </div>
+            <div class="col-3">
+              <label class="small">Since</label>
+              <input
+                type="number"
+                class="form-control form-control-sm"
+                formControlName="since"
+              />
+            </div>
+          </div>
+          <div class="text-end">
+            <button
+              type="button"
+              class="btn btn-link btn-sm text-danger"
+              (click)="removeHobby(i)"
+            >
+              Remove
+            </button>
+          </div>
+        </div>
+      </div>
+      <mat-form-field appearance="outline">
+        <mat-label>Hobbies</mat-label>
+        <mat-select
+          formControlName="hobbies1"
+          multiple
+          (selectionChange)="toggleAllSelection($event)"
+        >
+          <mat-option [value]="SELECT_ALL">Select All</mat-option>
+
+          <mat-option *ngFor="let hobby of hobbiesList" [value]="hobby">
+            {{ hobby }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <div class="row mt-4">
+        <div class="col-12 my-2 border-bottom">
+          <h5 class="text-secondary fw-semibold">Attachments</h5>
+        </div>
+
+        <div class="col-12 mb-4">
+          <label class="fw-bold mb-2">Single Document (ID Proof)</label>
+          <div
+            class="upload-container p-5 border border-dashed rounded text-center bg-light"
+            (drop)="onFileDropped($event, 'single')"
+            (dragover)="onDragOver($event)"
+            (click)="singleInput.click()"
+            style="cursor: pointer"
+          >
+            <div *ngIf="!singleFileName">
+              <i class="bi bi-cloud-arrow-up fs-1 text-primary"></i>
+              <p class="mt-2 mb-0">
+                Drag and drop file here or <strong>browse</strong>
+              </p>
+              <small class="text-muted"
+                >Supports: PDF, JPG, PNG (Max 2MB)</small
+              >
+            </div>
+
+            <div *ngIf="singleFileName" class="text-success">
+              <i class="bi bi-check-circle-fill fs-2"></i>
+              <p class="fw-bold mb-0 text-dark">
+                {{ singleFileName }}
+              </p>
+              <small class="text-decoration-underline text-primary"
+                >Click to change file</small
+              >
+            </div>
+
+            <input
+              type="file"
+              #singleInput
+              class="d-none"
+              (change)="onSingleFileChange($event)"
+            />
+          </div>
+        </div>
+
+        <div class="col-12 mb-4">
+          <label class="fw-bold mb-2">Additional Certificates (Multiple)</label>
+          <div
+            class="upload-container p-5 border border-dashed rounded text-center bg-light"
+            (drop)="onFileDropped($event, 'multi')"
+            (dragover)="onDragOver($event)"
+            (click)="multiInput.click()"
+            style="cursor: pointer"
+          >
+            <div *ngIf="multiFileNames.length === 0">
+              <i class="bi bi-files fs-1 text-info"></i>
+              <p class="mt-2 mb-0">
+                Drag multiple files here or <strong>browse</strong>
+              </p>
+            </div>
+
+            <div *ngIf="multiFileNames.length > 0">
+              <p class="fw-bold text-info mb-2">Files Selected:</p>
+              <div class="d-flex flex-wrap justify-content-center gap-2">
+                <span
+                  class="badge bg-info text-dark p-2 border shadow-sm"
+                  *ngFor="let name of multiFileNames"
+                >
+                  <i class="bi bi-file-earmark-check me-1"></i>{{ name }}
+                </span>
+              </div>
+              <small class="d-block mt-3 text-primary text-decoration-underline"
+                >Add/Replace files</small
+              >
+            </div>
+
+            <input
+              type="file"
+              #multiInput
+              class="d-none"
+              multiple
+              (change)="onMultiFileChange($event)"
+            />
+          </div>
+        </div>
+      </div>
+      <button
+        type="submit"
+        class="btn btn-warning my-4 w-100 fw-bold"
+        [disabled]="!profileForm.valid"
+      >
+        SUBMIT FORM
+      </button>
+    </form>
   </div>
-  <p>form value: {{ profileForm.value | json }}</p>
-  <p>Form Status: {{ profileForm.status }}</p>
-  <button type="submit" [disabled]="!profileForm.valid">Submit</button>
-</form>
-<button type="button" (click)="updateProfile()">Update Profile</button>
+</div>
