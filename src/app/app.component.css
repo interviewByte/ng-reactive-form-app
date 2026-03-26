@@ -1,0 +1,15 @@
+.nav {
+    height: 400px;
+    width: 400px;
+    margin: 0 auto;
+    padding: 1.5rem;
+    gap: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    flex-wrap: wrap;
+    border-radius: 4px;
+    border: 1px solid grey;
+    margin-top: 5rem;
+}

@@ -4,7 +4,7 @@ import { AsyncPipe } from '@angular/common';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { FormOneComponent } from './components/form-one/form-one.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { GroupingFormComponent } from './components/grouping-form/grouping-form.component';
 import { DynamicFormComponent } from './components/dynamic-form/dynamic-form.component';
 import { TableModule } from 'primeng/table';
@@ -20,6 +20,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
 import { BuildingDynamicFormComponent } from './components/building-dynamic-form/building-dynamic-form.component';
 import { BuildingFormQuestionComponent } from './components/building-form-question/building-form-question.component';
+import { ChildComponent } from './components/child/child.component';
+import { ParentComponent } from './components/parent/parent.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +33,8 @@ import { BuildingFormQuestionComponent } from './components/building-form-questi
     BuildingFormQuestionComponent,
     LoginComponent,
     ScrollTableComponent,
+    ChildComponent,
+    ParentComponent,
   ],
   imports: [
     BrowserModule,
@@ -44,6 +48,7 @@ import { BuildingFormQuestionComponent } from './components/building-form-questi
     MatInputModule,
     MatSelectModule,
     CommonModule,
+    FormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

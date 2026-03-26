@@ -13,14 +13,12 @@ export class ApiCallService {
   getProfile(): Observable<any> {
     return this.http.get(this.apiUrl);
   }
-  // Inside api-call.service.ts
 
-  saveProfile(data: any) {
-    // Regular JSON post
+  saveProfile(data: any):Observable<any> {
     return this.http.post('http://localhost:3000/test/v1/save-profile', data);
   }
 
-  uploadDocuments(formData: FormData) {
+  uploadDocuments(formData: FormData):Observable<any> {
     // Multipart/form-data post
     // Angular automatically sets the boundary and content-type
     return this.http.post(

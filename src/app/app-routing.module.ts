@@ -5,6 +5,7 @@ import { GroupingFormComponent } from './components/grouping-form/grouping-form.
 import { DynamicFormComponent } from './components/dynamic-form/dynamic-form.component';
 import { BuildingDynamicFormComponent } from './components/building-dynamic-form/building-dynamic-form.component';
 import { ScrollTableComponent } from './components/scroll-table/scroll-table.component';
+import { ParentComponent } from './components/parent/parent.component';
 
 const routes: Routes = [
   {
@@ -13,7 +14,7 @@ const routes: Routes = [
   },
   {
     path: '',
-    component: FormOneComponent,
+    component: ParentComponent,
   },
   {
     path: 'form-group',
@@ -26,6 +27,10 @@ const routes: Routes = [
   {
     path: 'table',
     component: ScrollTableComponent,
+  },
+  {
+    path: 'parent',
+    component: ParentComponent,
   },
 ];
 @NgModule({
