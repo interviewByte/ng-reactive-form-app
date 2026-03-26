@@ -32,11 +32,14 @@ export class FormOneComponent implements OnInit {
   ];
   constructor() {
     this.myform = new FormGroup({
-      name: new FormControl(''),
-      email: new FormControl(''),
-      mobilePhone: new FormControl('', Validators.maxLength(10)),
-      course: new FormControl(''),
-      experience: new FormControl(0),
+      name: new FormControl('', Validators.required),
+      email: new FormControl('', Validators.required),
+      mobilePhone: new FormControl('', [
+        Validators.maxLength(10),
+        Validators.required,
+      ]),
+      course: new FormControl('', Validators.required),
+      experience: new FormControl(0, Validators.required),
     });
   }
   ngOnInit(): void {
@@ -55,5 +58,16 @@ export class FormOneComponent implements OnInit {
     if (this.myform.contains('salary')) {
       this.myform.removeControl('salary');
     }
+  }
+  addNewFormGroup() {
+    this.myform.addControl(
+      'address',
+      new FormGroup({
+        country: new FormControl(''),
+        state: new FormControl(''),
+        city: new FormControl(''),
+        zipcode: new FormControl(''),
+      }),
+    );
   }
 }

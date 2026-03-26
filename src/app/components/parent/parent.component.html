@@ -1,0 +1,19 @@
+<p>
+  parent works!
+  <span>Lear how parent send data to chils and viceversa !</span>
+</p>
+<div>
+  <p>child component content :</p>
+  <app-child
+    [childInputData]="parentInputData"
+    (newItemEvent)="handleChildEvent($event)"
+  ></app-child>
+</div>
+<div>
+  <ul>
+    <li *ngFor="let item of data; let i = index" style="margin: 7px 0px">
+      <span>{{ item.item }}</span>
+      <button (click)="deleteItem(i)">X</button>
+    </li>
+  </ul>
+</div>
