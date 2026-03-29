@@ -1,120 +1,124 @@
 <div class="card shadow w-50 mx-auto mt-5 p-4">
-  <form action="" [formGroup]="myform" (ngSubmit)="handSubmit()">
-    <div class="input-group my-3">
-      <input
-        type="text"
-        class="form-control"
-        name=""
-        id=""
-        formControlName="name"
-        placeholder="Enter Name"
-      />
-    </div>
-    <span class="text-danger" *ngIf="myform.get('name')?.hasError('required')"
-      >This filed is requird</span
-    >
-    <div>
-      <input
-        type="email"
-        class="form-control"
-        name=""
-        id=""
-        formControlName="email"
-        placeholder="Enter Email"
-      />
-    </div>
-    <div class="input-group my-3">
-      <input
-        class="form-control"
-        type="number"
-        name=""
-        id=""
-        formControlName="name"
-        placeholder="Enter Mobile No"
-      />
-    </div>
-    <div class="input-group my-3">
-      <select name="" id="" formControlName="course" class="form-control">
-        <option [value]="c.id" *ngFor="let c of courses">{{ c.lebel }}</option>
-      </select>
-    </div>
-    <div class="input-group my-3">
-      <input
-        class="form-control"
-        type="text"
-        name=""
-        id=""
-        formControlName="experience"
-        placeholder="Enter Experience"
-      />
-    </div>
-    <div *ngIf="myform.contains('salary')" class="input-group my-3">
-      <input
-        type="text"
-        name=""
-        id=""
-        formControlName="salary"
-        class="form-control"
-        placeholder="Enter salary"
-      />
-    </div>
-    <div class="m-3">
-      <button type="submit" class="btn btn-success">Submit</button>
-    </div>
-    <div class="m-3">
-      <button type="button" class="btn btn-danger" (click)="handleClick()">
-        Remove salary Control
-      </button>
-    </div>
-    <div class="m-3">
-      <button type="button" (click)="addNewFormGroup()" class="btn btn-success">
-        Add New Form group
-      </button>
-    </div>
-    <div *ngIf="myform.contains('address')">
-      <div formGroupName="address">
-        <h5>New FormGroup</h5>
-        <div class="inputgroup my-3">
-          <input
-            type="text"
-            name=""
-            id=""
-            class="form-control"
-            formControlName="country"
-            placeholder="Enter country"
-          />
-        </div>
-        <div class="inputgroup my-3">
-          <input
-            type="text"
-            name=""
-            id=""
-            class="form-control"
-            formControlName="state"
-            placeholder="Enter state"
-          />
-        </div>
-        <div class="inputgroup my-3">
-          <input
-            type="text"
-            name=""
-            id=""
-            class="form-control"
-            formControlName="city"
-            placeholder="Enter city"
-          />
-        </div>
-        <div class="inputgroup my-3">
-          <input
-            type="text"
-            name=""
-            id=""
-            class="form-control"
-            formControlName="zipcode"
-            placeholder="Enter zipcode"
-          />
-        </div>
+  <form [formGroup]="myform" (ngSubmit)="handSubmit()">
+    <!--  Basic Info -->
+    <h3>Basic Info</h3>
+
+    <input type="text" formControlName="name" placeholder="Name" />
+    <input type="email" formControlName="email" placeholder="Email" />
+    <input type="text" formControlName="mobilePhone" placeholder="Mobile" />
+    <select name="" id="" formControlName="country">
+      <option value="">Select country</option>
+      <option [value]="c.id" *ngFor="let c of countries">
+        {{ c.countryName }}
+      </option>
+    </select>
+    <select name="" id="" formControlName="state" *ngIf="allStates.length > 0">
+      <option value="">Select state</option>
+      <option [value]="s.id" *ngFor="let s of allStates">
+        {{ s.name }}
+      </option>
+    </select>
+    <!--  Professional Info -->
+    <h3>Professional Info</h3>
+
+    <input type="text" formControlName="role" placeholder="Role" />
+    <input
+      type="number"
+      formControlName="experience"
+      placeholder="Experience"
+    />
+    <input type="text" formControlName="currentCompany" placeholder="Company" />
+    <input type="text" formControlName="location" placeholder="Location" />
+
+    <!--  Skills (FormArray) -->
+    <h3>Skills</h3>
+
+    <div formArrayName="skills">
+      <div *ngFor="let skill of skills.controls; let i = index">
+        <input [formControlName]="i" placeholder="Enter skill" />
+        <button type="button" (click)="removeSkill(i)">Remove</button>
       </div>
     </div>
+
+    <button type="button" (click)="addSkill()">Add Skill</button>
+
+    <!--  Projects (FormArray of FormGroup) -->
+    <h3>Projects</h3>
+
+    <div formArrayName="projects">
+      <div
+        *ngFor="let project of projects.controls; let i = index"
+        [formGroupName]="i"
+      >
+        <input formControlName="title" placeholder="Project Title" />
+        <input formControlName="description" placeholder="Description" />
+        <input formControlName="techStack" placeholder="Tech Stack" />
+
+        <button type="button" (click)="removeProject(i)">Remove</button>
+      </div>
+    </div>
+
+    <button type="button" (click)="addProject()">Add Project</button>
+
+    <!--  Education -->
+    <h3>Education</h3>
+
+    <input type="text" formControlName="education" placeholder="Education" />
+    <input type="text" formControlName="course" placeholder="Course" />
+
+    <!-- Links -->
+    <h3>Links</h3>
+
+    <input type="text" formControlName="github" placeholder="GitHub" />
+    <input type="text" formControlName="linkedin" placeholder="LinkedIn" />
+    <input type="text" formControlName="portfolio" placeholder="Portfolio" />
+
+    <!--  About -->
+    <h3>About</h3>
+
+    <textarea formControlName="about" placeholder="About you"></textarea>
+
+    <!-- Added single dynamic filed -->
+    <div *ngIf="myform.contains('anything')">
+      <h3>Add anythig</h3>
+      <input
+        type="text"
+        name=""
+        id=""
+        formControlName="anything"
+        placeholder="Enter anythig"
+      />
+    </div>
+    <!-- Added group dynamic filed -->
+    <div *ngIf="myform.contains('anythingGroup')" formGroupName="anythingGroup">
+      <h3>Add Anything in Group</h3>
+      <label for="male">Male</label>
+      <input type="radio" id="male" formControlName="gender" value="male" />
+      <label for="female">Female</label>
+      <input type="radio" id="female" formControlName="gender" value="female" />
+    </div>
+
+    <div *ngIf="myform.contains('family')" formArrayName="family">
+      <h3>Add anything in Array</h3>
+      <div *ngFor="let f of family.controls; let i = index">
+        <input
+          type="text"
+          name=""
+          id=""
+          placeholder="Add family member"
+          [formControlName]="i"
+        /><button type="button" (click)="removeMember(i)">Remove</button>
+      </div>
+      <button type="button" (click)="addFamily()">Add Family memeber</button>
+    </div>
+    <br />
+    <br />
+    <h3>Add some Dynamic Field</h3>
+    <button type="button" (click)="singleFiled()">Add single Filed</button>
+    <button type="button" (click)="addFormGroup()">Add formGroup</button>
+    <button type="button" (click)="addFormArray()">Add Form FormArray</button>
+
+    <!--  Submit -->
+    <button type="submit" [disabled]="myform.invalid">Submit</button>
   </form>
 </div>
