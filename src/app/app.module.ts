@@ -22,6 +22,7 @@ import { BuildingDynamicFormComponent } from './components/building-dynamic-form
 import { BuildingFormQuestionComponent } from './components/building-form-question/building-form-question.component';
 import { ChildComponent } from './components/child/child.component';
 import { ParentComponent } from './components/parent/parent.component';
+import { FormBuilderServiceComponent } from './form-builder-service/form-builder-service.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { ParentComponent } from './components/parent/parent.component';
     ScrollTableComponent,
     ChildComponent,
     ParentComponent,
+    FormBuilderServiceComponent,
   ],
   imports: [
     BrowserModule,

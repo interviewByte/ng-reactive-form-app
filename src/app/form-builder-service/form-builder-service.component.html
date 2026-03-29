@@ -1,0 +1,42 @@
+<form [formGroup]="profileForm" (ngSubmit)="handlesubmit()">
+  <div>
+    <label for=""
+      >First Name:
+      <input type="text" name="" id="" formControlName="firstName" />
+    </label>
+  </div>
+  <div>
+    <label for=""
+      >Last Name:
+      <input type="text" name="" id="" formControlName="lastName" />
+    </label>
+  </div>
+  <h3>Addre:</h3>
+  <div formGroupName="address">
+    <div>
+      <label for=""
+        >Street Name:
+        <input type="text" name="" id="" formControlName="street" />
+      </label>
+    </div>
+    <div>
+      <label for=""
+        >City Name:
+        <input type="text" name="" id="" formControlName="city" />
+      </label>
+    </div>
+    <div>
+      <label for=""
+        >State Name:
+        <input type="text" name="" id="" formControlName="state" />
+      </label>
+    </div>
+    <div>
+      <label for=""
+        >Zip:
+        <input type="text" name="" id="" formControlName="zip" />
+      </label>
+    </div>
+  </div>
+  <button type="submit">Submit</button>
+</form>

@@ -6,11 +6,16 @@ import { DynamicFormComponent } from './components/dynamic-form/dynamic-form.com
 import { BuildingDynamicFormComponent } from './components/building-dynamic-form/building-dynamic-form.component';
 import { ScrollTableComponent } from './components/scroll-table/scroll-table.component';
 import { ParentComponent } from './components/parent/parent.component';
+import { FormBuilderServiceComponent } from './form-builder-service/form-builder-service.component';
 
 const routes: Routes = [
   {
     path: 'reactive-form',
     component: FormOneComponent,
+  },
+  {
+    path: 'form-builder-service',
+    component: FormBuilderServiceComponent,
   },
   {
     path: '',
