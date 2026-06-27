@@ -1,12 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, shareReplay } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ApiCallService {
   private apiUrl = 'http://localhost:8000/test/v1/profile';
+  private postURL = "https://jsonplaceholder.typicode.com/posts";
 
   constructor(private http: HttpClient) {}
 
@@ -26,4 +27,9 @@ export class ApiCallService {
       formData
     );
   }
+ getUserData() {
+  return this.http.get(this.postURL).pipe(
+    shareReplay(1) 
+  );
+}
 }

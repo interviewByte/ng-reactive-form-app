@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-parent',
@@ -12,6 +13,13 @@ export class ParentComponent {
     { id: 2, item: 'moto g 85' },
   ];
   childData: any;
+  constructor(private route: ActivatedRoute) {
+    this.route.queryParams.subscribe((res) => {
+      console.log(res);
+      console.log(res['id']);
+      console.log(res['name']);
+    });
+  }
   handleChildEvent(newItem: string) {
     this.data = [...this.data, { id: this.data.length, item: newItem }];
   }

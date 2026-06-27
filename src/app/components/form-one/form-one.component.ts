@@ -1,5 +1,7 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+import { ApiCallService } from '../../services/api-call.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-form-one',
@@ -63,7 +65,10 @@ export class FormOneComponent implements OnInit, AfterViewInit {
       ],
     },
   ];
-  constructor() {
+  constructor(
+    public service: ApiCallService,
+    public router: Router,
+  ) {
     this.myform = new FormGroup({
       // Basic Info
       name: new FormControl('', Validators.required),
@@ -130,10 +135,22 @@ export class FormOneComponent implements OnInit, AfterViewInit {
       }
     });
   }
-  ngAfterViewInit(): void {}
+  ngAfterViewInit(): void {
+    this.service.getUserData().subscribe({
+      next: (res) => {
+        console.log('res', res);
+      },
+      error: (err) => {
+        console.log('error', err);
+      },
+    });
+  }
   handSubmit() {
     console.log('This.fomr', this.myform.value);
     this.myform.reset();
+    this.router.navigate(['/parent'], {
+      queryParams: { id: 19999, name: 'pavan' },
+    });
   }
 
   get skills(): FormArray {
